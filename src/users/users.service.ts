@@ -19,6 +19,14 @@ export class UsersService {
     });
   }
 
+  public findOneById(id: string): Promise<User> {
+    return this.userRepo.findOne({
+      where: {
+        id,
+      },
+    });
+  }
+
   public createUser(dto: UserDto): Promise<User> {
     return this.userRepo.create(dto);
   }
