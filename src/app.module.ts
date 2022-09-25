@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { FilesModule } from './user-files/user-files.module';
 import { UserFile } from './user-files/infrastructure/repositories/user-file.repository';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { UserFile } from './user-files/infrastructure/repositories/user-file.rep
       autoLoadModels: true,
     }),
     FilesModule,
+    ChatModule,
   ],
   controllers: [AppController],
   providers: [AppService],
