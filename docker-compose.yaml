@@ -13,6 +13,7 @@ services:
     command: yarn start:dev
     depends_on:
       - db
+      - mongo_database
     restart: unless-stopped
 
   db:
@@ -50,24 +51,31 @@ services:
       retries: 3
     restart: unless-stopped
 
-  # file_db:
-  #   image: mongo:latest
-  #   env_file:
-  #     .env
-  #   environment:
-  #     MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-  #     MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-  #     MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
-  #   ports:
-  #     - 27017:27017
-  #   volumes:
-  #     - file-storage:/data/db
-  #   restart: unless-stopped
+  mongo_database:
+    image: mongo
+    restart: always
+    container_name: 'file_share_chat_mongo'
+    volumes:
+      - mongodb_data_container:/data/db
+    ports:
+      - 27017:27017
+
+  redis_cache:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    volumes: 
+      - cache:/data
 
 
 volumes:
   db_data:
   minio-storage:
   app_modules:
+  mongodb_data_container:
+  cache:
   
   
