@@ -1,13 +1,20 @@
 import { Module } from '@nestjs/common';
-import { SequelizeModule } from '@nestjs/sequelize';
-import { User } from './user.model';
-import { UsersService } from './users.service';
-import { UsersController } from './users.controller';
+import { UsersService } from './application/users.service';
+import { MongooseModule } from '@nestjs/mongoose';
+import { User, UserSchema } from './infrastructure/schemas';
+import { UsersController } from './presentation/users.controller';
+import { DatabaseMongoModule } from 'src/databaseMongo/databaseMongo.module';
 
 @Module({
-  imports: [SequelizeModule.forFeature([User])],
+  imports: [
+    DatabaseMongoModule,
+    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+  ],
   providers: [UsersService],
-  exports: [UsersService],
+  exports: [
+    UsersService,
+    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+  ],
   controllers: [UsersController],
 })
 export class UsersModule {}
