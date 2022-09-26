@@ -67,7 +67,7 @@ export class MinioFileService {
       };
     } catch (error) {
       this.logger.error(JSON.stringify(error));
-      throw new BadRequestException('Cannot delete this file');
+      throw new BadRequestException('Cannot upload file');
     }
   }
 

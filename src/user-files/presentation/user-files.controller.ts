@@ -10,11 +10,14 @@ import {
   UploadedFile,
   UseInterceptors,
   Headers,
+  UseGuards,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { AccessTokenGuard } from 'src/core/guards';
 import { UserFilesService } from '../application';
 
 @Injectable()
+@UseGuards(AccessTokenGuard)
 @Controller('files')
 export class UserFilesController {
   private logger: Logger = new Logger(UserFilesController.name);

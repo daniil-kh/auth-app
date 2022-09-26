@@ -18,8 +18,8 @@ export class UserFile extends Model<UserFile, UserFileCreationAttributes> {
   url: string;
 
   @Column({
-    type: DataType.INTEGER,
+    type: DataType.STRING,
     allowNull: false,
   })
-  userId: number;
+  userid: string;
 }

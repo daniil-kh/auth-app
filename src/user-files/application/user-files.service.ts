@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { JwtPayload } from 'src/auth/application/accessToken.strategy';
 import { MinioFileService } from '../domain';
@@ -7,15 +7,15 @@ import { UserFileRepository } from '../infrastructure/repositories';
 @Injectable()
 export class UserFilesService {
   constructor(
-    @Inject(MinioFileService)
     private readonly minioFileService: MinioFileService,
-    @Inject(UserFileRepository)
     private readonly userFilesRepository: UserFileRepository,
-    @Inject(JwtService) private readonly jwtService: JwtService,
+    private readonly jwtService: JwtService,
   ) {}
 
   private getUserIdFromToken(token: string) {
-    return (this.jwtService.decode(token) as JwtPayload).sub;
+    const tokenPart = token.split(' ')[1];
+    const decodedToken = this.jwtService.decode(tokenPart) as JwtPayload;
+    return decodedToken?.sub ?? '';
   }
 
   getByName(name: string, token: string) {
