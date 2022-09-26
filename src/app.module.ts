@@ -6,8 +6,8 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { FilesModule } from './user-files/user-files.module';
-import { UserFile } from './user-files/infrastructure/repositories/user-file.repository';
 import { ChatModule } from './chat/chat.module';
+import { UserFile } from './user-files/infrastructure/entities/user-file.entity';
 
 @Module({
   imports: [

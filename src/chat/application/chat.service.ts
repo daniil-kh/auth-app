@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from 'src/users/application/users.service';
 import { ChatEntity } from '../infrastructure/entities';
 import { Chat } from '../infrastructure/repositories';
 

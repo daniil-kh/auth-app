@@ -1,1 +1,1 @@
-export * from './minio-file.service';
+export * from './user-files.service';
