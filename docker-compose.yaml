@@ -1,0 +1,82 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    ports:
+      - 5000:5000
+    volumes:
+     - .:/app
+     - node_modules:/app/node_modules
+    command: yarn start:dev
+    depends_on:
+      - db
+      - mongo_database
+    restart: unless-stopped
+
+  db:
+    image: postgres:latest
+    env_file:
+      .env
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+      PGDATA: /var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  minio:
+    image: minio/minio:latest
+    env_file:
+      .env
+    command: server --console-address ":9001" /data/
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    volumes:
+      - minio-storage:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    restart: unless-stopped
+
+  mongo_database:
+    image: mongo
+    restart: always
+    container_name: 'file_share_chat_mongo'
+    volumes:
+      - mongodb_data_container:/data/db
+    ports:
+      - 27017:27017
+
+  redis_cache:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    volumes: 
+      - cache:/data
+
+
+volumes:
+  db_data:
+  minio-storage:
+  mongodb_data_container:
+  cache:
+  node_modules:
+  
+  
