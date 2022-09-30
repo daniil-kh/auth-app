@@ -11,6 +11,10 @@ declare global {
       DB_NAME: string;
       MINIO_ROOT_USER: string;
       MINIO_ROOT_PASSWORD: string;
+      MINIO_BUCKET: string;
+      MINIO_REGION: string;
+      MINIO_PRIVATE_URL: string;
+      MINIO_PUBLICS_URL: string;
       MONGO_INITDB_ROOT_USERNAME: string;
       MONGO_INITDB_ROOT_PASSWORD: string;
       MONGO_INITDB_DATABASE: string;

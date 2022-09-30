@@ -18,11 +18,13 @@ import { Readable } from 'stream';
 
 @Injectable()
 export class MinioFileService {
-  private bucket = 'test-minio-bucket';
-  private region = 'us-east-1';
-  private minioUrl = 'http://minio:9000';
+  private readonly bucket = process.env.MINIO_BUCKET;
+  private readonly region = process.env.MINIO_REGION;
+  private readonly minioUrl = process.env.MINIO_PRIVATE_URL;
+  private readonly minioPublicUrl = process.env.MINIO_PUBLICS_URL;
   private s3client: S3Client;
   private logger: Logger = new Logger(MinioFileService.name);
+
   constructor() {
     this.s3client = new S3Client({
       region: this.region,
@@ -61,7 +63,7 @@ export class MinioFileService {
       );
 
       return {
-        fileUrl: `${this.minioUrl}/${this.bucket}/${fileName}`,
+        fileUrl: `${this.minioPublicUrl}/${this.bucket}/${fileName}`,
         fileName,
         extension,
       };

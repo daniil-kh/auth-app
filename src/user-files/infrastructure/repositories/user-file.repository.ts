@@ -113,12 +113,11 @@ export class UserFileRepository {
   async create(dto: UserFileCreationAttributes) {
     try {
       const result = await this.userFileRepo.sequelize.query(
-        `insert into userfiles (name, url, userid, createdAt) values (:name, :url, :userId, :createdAt)`,
+        `insert into userfiles (name, url, userid) values (:name, :url, :userId)`,
         {
           type: QueryTypes.INSERT,
           replacements: {
             ...dto,
-            createdAt: new Date(),
           },
         },
       );
