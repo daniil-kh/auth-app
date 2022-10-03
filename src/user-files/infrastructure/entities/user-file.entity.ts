@@ -1,7 +1,7 @@
 import { Table, Column, Model, DataType } from 'sequelize-typescript';
 import { UserFileCreationAttributes } from '../repositories-interfaces';
 
-@Table({ tableName: 'userfiles' })
+@Table({ tableName: 'userfiles', timestamps: false })
 export class UserFile extends Model<UserFile, UserFileCreationAttributes> {
   @Column({
     type: DataType.INTEGER,
